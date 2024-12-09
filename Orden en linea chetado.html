@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenar en Línea - Restaurante El Sabor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .order {
+            padding: 2rem;
+            text-align: center;
+        }
+        .order h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-bottom: 1px solid #ccc;
+        }
+        .item img {
+            max-width: 100px;
+            margin-right: 1rem;
+        }
+        .item-description {
+            flex: 1;
+            text-align: left;
+        }
+        .item-description h4 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .item-description p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+        .item-price {
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+        .item-quantity {
+            width: 50px;
+        }
+        .cart {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        .cart h3 {
+            margin-bottom: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+        }
+        .total {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            text-align: right;
+        }
+        .checkout {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="order">
+    <h2>Ordenar en Línea</h2>
+
+    <div class="item">
+        <img src="ensalada_cesar.jpg" alt="Ensalada César">
+        <div class="item-description">
+            <h4>Ensalada César</h4>
+            <p>Fresca ensalada con lechuga romana, crutones y aderezo César.</p>
+        </div>
+        <div class="item-price">$8</div>
+        <input type="number" class="item-quantity" value="1" min="1">
+        <button onclick="addToCart('Ensalada César', 8)">Añadir</button>
+    </div>
+
+    <div class="item">
+        <img src="filete_mignon.jpg" alt="Filete Mignon">
+        <div class="item-description">
+            <h4>Filete Mignon</h4>
+            <p>Jugoso filete de res con salsa de champiñones y puré de papas.</p>
+        </div>
+        <div class="item-price">$25</div>
+        <input type="number" class="item-quantity" value="1" min="1">
+        <button onclick="addToCart('Filete Mignon', 25)">Añadir</button>
+    </div>
+
+    <div class="cart">
+        <h3>Carrito de Compras</h3>
+        <div id="cart-items"></div>
+        <div class="total">Total: $<span id="total-price">0</span></div>
+        <a href="#" class="checkout">Pagar</a>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    function addToCart(item, price) {
+        const quantity = parseInt(document.querySelector('.item-quantity').value);
+        const cartItem = cart.find(i => i.name === item);
+        if (cartItem) {
+            cartItem.quantity += quantity;
+        } else {
+            cart.push({ name: item, price: price, quantity: quantity });
+        }
+        updateCart();
+    }
+    
+    function updateCart() {
+        const cartItems = document.getElementById('cart-items');
+        cartItems.innerHTML = '';
+        let totalPrice = 0;
+        cart.forEach(item => {
+            totalPrice += item.price * item.quantity;
+            cartItems.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>$${item.price * item.quantity}</span>
+                </div>
+            `;
+        });
+        document.getElementById('total-price').innerText = totalPrice;
+    }
+</script>
+
+</body>
+</html>
